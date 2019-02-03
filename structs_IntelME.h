@@ -13,8 +13,8 @@ namespace CBL{
     /****************
         CONSTANTS     
     ****************/
-    const DATASIZE MFS_pageSize = 0x2000;
-    const DATASIZE MFS_chunkSize = 0x40;
+    const DATASIZE MFS_pageSize = {0x2000};
+    const DATASIZE MFS_chunkSize = {0x40};
 
     /*****************
         STRUCTURES     
@@ -26,7 +26,7 @@ namespace CBL{
         uint16_t nextErase;
         uint16_t firstChunk;
         uint8_t cheksum;
-        uint8_t zeroBytes = 0x00;
+        uint8_t zeroBytes = {0x00};
     } MFS_PAGE_HEADER;
 
     typedef struct{
