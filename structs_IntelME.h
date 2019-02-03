@@ -45,6 +45,6 @@ namespace CBL{
     /****************
         SIGNATURES     
     ****************/
-    const std::vector<BYTE> MFS_signaturePage = {0x87, 0x78, 0x55, 0xAA};
+    const V_BYTE MFS_signaturePage = {0x87, 0x78, 0x55, 0xAA};
 }
 #endif

@@ -37,16 +37,16 @@ std::vector<CBL::ADDRESS> CBL::find_all_by_signature(const std::vector<CBL::BYTE
     }    
 }
 
-std::vector<CBL::BYTE> CBL::get_reverse_buffer(const std::vector<BYTE> &buffer, const ADDRESS offset, const DATASIZE size){
+std::vector<CBL::BYTE> CBL::get_reverse_buffer(const V_BYTE &buffer, const ADDRESS offset, const DATASIZE size){
     //
     //get buffer func then write
 
-    std::vector<BYTE> temp;
+    V_BYTE temp;
     for (int i = buffer.size() - 1; i >= 0; --i) temp.push_back(buffer[i]);
     return temp;
 }
 void CBL::reverse_buffer(std::vector<CBL::BYTE> &buffer){  // rewrite algorithm
-        std::vector<BYTE> temp;
+        V_BYTE temp;
         for (int i = buffer.size() - 1; i >= 0; --i) temp.push_back(buffer[i]);
         buffer = temp;
 }

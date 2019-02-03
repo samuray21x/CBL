@@ -1,6 +1,7 @@
 #ifndef STRUCTS_BASIC_H
 #define STRUCTS_BASIC_H
 #include <stdint.h>
+#include <vector>
 
 namespace CBL{
 
@@ -10,9 +11,9 @@ namespace CBL{
     typedef uint8_t BYTE;
     typedef uint32_t DATASIZE;
     typedef uint32_t ADDRESS;
-    typedef uint64_t DATASIZE64;
-    typedef uint64_t ADDRESS64;
-
+    typedef std::vector<BYTE> V_BYTE;
+    typedef std::vector<DATASIZE> V_DATASIZE;
+    typedef std::vector<ADDRESS> V_ADDRESS;
     /****************
         CONSTANTS     
     ****************/
