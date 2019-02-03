@@ -1,11 +1,9 @@
-#include <vector>
 #include <iostream>
+#include "exceptions.h"
 #include "lib_binary.h"
 #include "lib_IntelME.h"
-#include "exceptions.h"
 
-
-std::vector<CBL::ADDRESS> CBL::find_all_MFS_pages_by_signature(const std::vector<CBL::BYTE> &buffer, const std::vector<CBL::BYTE> &signature, CBL::ADDRESS start_index){
+std::vector<CBL::ADDRESS> CBL::find_all_MFS_pages_by_signature(const std::vector<CBL::BYTE> &buffer, CBL::ADDRESS start_index, const std::vector<CBL::BYTE> &signature){
     std::vector<CBL::ADDRESS> offsets;
     try{
         for (CBL::ADDRESS cur_offset = 0; cur_offset != (unsigned)-1; ){

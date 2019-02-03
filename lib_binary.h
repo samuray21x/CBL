@@ -1,6 +1,5 @@
 #ifndef LIB_BINARY_H
 #define LIB_BINARY_H
-#include <vector>
 #include "structs_basic.h"
 
 namespace CBL{

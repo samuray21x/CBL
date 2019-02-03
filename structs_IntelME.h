@@ -1,6 +1,5 @@
 #ifndef ME_STRUCTS_H
 #define ME_STRUCTS_H
-#include <vector>
 #include <stdint.h>
 #include "structs_basic.h"
 
