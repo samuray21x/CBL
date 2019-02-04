@@ -1,5 +1,6 @@
-#include "cmath"
+#include <cmath>
 #include <iostream>
+#include <fstream>
 #include <stdio.h> // debug
 #include "lib_binary.h"
 #include "exceptions.h"
@@ -46,13 +47,14 @@ CBL::V_BYTE CBL::get_reverse_buffer(const V_BYTE &buffer, const ADDRESS offset, 
     return temp;
 }
 void CBL::reverse_buffer(CBL::V_BYTE &buffer){  // rewrite algorithm
-        V_BYTE temp;
-        for (int i = buffer.size() - 1; i >= 0; --i) temp.push_back(buffer[i]);
-        buffer = temp;
+        DATASIZE size = buffer.size();
+        BYTE t = 0;
+        for (int i = 0; i < size/2; ++i){
+            t = buffer[i];
+            buffer[i] = buffer[size - i - 1];
+            buffer[size - i - 1] = t;
+        }
 }
-
-
-
 
 uint8_t CBL::buf2u8(const CBL::V_BYTE &buffer, ADDRESS offset){
     return buffer.size() > offset ? buffer[offset] : 0;   
@@ -76,14 +78,143 @@ uint64_t CBL::buf2u64(const CBL::V_BYTE &buffer, ADDRESS offset){
     return result;
 }
 
-//for debug
-void printHex(const CBL::V_BYTE &buffer, const CBL::DATASIZE size){
-    for (CBL::DATASIZE i = 0; i < size; ++i){
-        printf("0x%02x", buffer[i]);
+//IO functions
+
+CBL::DATASIZE CBL::read_file(V_BYTE &buffer, const std::string filepath, const DATASIZE max_read_size, const OFFSET offset){
+    DATASIZE count_readed = 0;
+    try{
+        std::ifstream file;
+        file.open(filepath, std::ifstream::binary);
+        if (!file) throw CBL::FileNotFoundException();
+
+        if (offset >= 0) file.seekg(offset);
+        else file.seekg(offset, file.end);
+        
+        CBL::BYTE t;
+        while (file.read((char*)&t, 1)) {
+            count_readed++;
+            buffer.push_back(t);
+            if (max_read_size != 0 && count_readed == max_read_size) break;
+        }
+        file.close();
+    }
+    catch(CBL::FileNotFoundException &e){
+        e.error();
+        count_readed = -1;
+    }
+    return count_readed;
+}
+
+CBL::DATASIZE CBL::read_file(V_BYTE &buffer, const char *filepath, const DATASIZE max_read_size, const OFFSET offset){
+    DATASIZE count_readed = 0;
+    try{
+        std::ifstream file;
+        file.open(filepath, std::ifstream::binary);
+        if (!file) throw CBL::FileNotFoundException();
+
+        if (offset >= 0) file.seekg(offset);
+        else file.seekg(offset, file.end);
+        
+        CBL::BYTE t;
+        while (file.read((char*)&t, 1)) {
+            count_readed++;
+            buffer.push_back(t);
+            if (max_read_size != 0 && count_readed == max_read_size) break;
+        }
+        file.close();
+    }
+    catch(CBL::FileNotFoundException &e){
+        e.error();
+        count_readed = -1;
+    }
+    return count_readed;
+}
+
+void CBL::printHex(const DATASIZE value){
+    printf("%02x", value);
+}
+
+void CBL::printHexPrefix(const DATASIZE value){
+    printf("0x%02x", value);
+}
+
+void CBL::printHex(const V_BYTE &buffer, DATASIZE size, OFFSET offset){
+    if (size == 0){
+        size = buffer.size();
+    }
+    else if (size + offset > buffer.size()){
+        size = buffer.size() - offset;
+    }
+    for (DATASIZE i = 0; i < size; ++i){
+        printf("%02x", buffer[offset+i]);
         if ( i != (size - 1) ) std::cout<<' ';
     }
 }
 
-void printHex(const CBL::DATASIZE value){
-    printf("0x%02x", value);
+void CBL::printHexPrefix(const V_BYTE &buffer, DATASIZE size, OFFSET offset){
+    if (size == 0){
+        size = buffer.size();
+    }
+    else if (size + offset > buffer.size()){
+        size = buffer.size() - offset;
+    }
+    for (DATASIZE i = 0; i < size; ++i){
+        printf("0x%02x", buffer[offset+i]);
+        if ( i != (size - 1) ) std::cout<<' ';
+    }
+}
+
+
+//TEST
+std::string CBL::sprintHex(const DATASIZE value){
+    try{
+        if (sizeof(value) > 8) throw UnallowableSizeOfArgument();
+        char t[17];
+        sprintf(t,"%02x", value);
+        return std::string(t);
+    }
+    catch(UnallowableSizeOfArgument &e){
+        e.debug();
+        return std::string("");
+    }
+}
+std::string CBL::sprintHexPrefix(const DATASIZE value){
+    try{
+        if (sizeof(value) > 8) throw UnallowableSizeOfArgument();
+        char t[19];
+        sprintf(t,"0x%02x", value);
+        return std::string(t);
+    }
+    catch(UnallowableSizeOfArgument &e){
+        e.debug();
+        return std::string("");
+    }
+}
+std::string CBL::sprintHex(const V_BYTE &buffer, DATASIZE size, OFFSET offset){
+    std::string result = "";
+    if (size == 0){
+        size = buffer.size();
+    }
+    else if (size + offset > buffer.size()){
+        size = buffer.size() - offset;
+    }
+    for (DATASIZE i = 0; i < size; ++i){
+        result += sprintHex(buffer[offset+i]);
+        if ( i != (size - 1) ) result += ' ';
+    }
+    return result;
+}
+std::string CBL::sprintHexPrefix(const V_BYTE &buffer, DATASIZE size, OFFSET offset){
+    std::string result = "";
+    if (size == 0){
+        size = buffer.size();
+    }
+    else if (size + offset > buffer.size()){
+        size = buffer.size() - offset;
+    }
+    for (DATASIZE i = 0; i < size; ++i){
+        result += sprintHexPrefix(buffer[offset+i]);
+        if ( i != (size - 1) ) result += ' ';
+    }
+    return result;
 }

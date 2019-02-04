@@ -17,12 +17,13 @@ CBL::V_ADDRESS CBL::find_all_MFS_pages_by_signature(const CBL::V_BYTE &buffer, C
     }
     catch(UnexpectedAddressOfMFSPage &e)
     {
-        e.debug;
+        e.debug();
+        return offsets;  
     }
     catch(...){
         std::cerr<<"[ERROR] Unknown exception!"<<std::endl;
         exit(-1);
-    }    
+    }  
 }
 
 CBL::MFS_PAGE_HEADER CBL::read_MFS_page_header(const CBL::V_BYTE &buffer, const CBL::ADDRESS addr){
