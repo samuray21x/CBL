@@ -1,7 +1,10 @@
 #ifndef EXCEPTIONS_H
 #define EXCEPTIONS_H
+#include <cstring>
+#include <iostream>
 
-//WANT to add msg for function name by using constructor arg
+// Soon it will be base class Exception and other classes will be rewrite methods:
+// debug(), error() and critical_error(), and although class constuctor for message update
 
 namespace CBL{
     class FileNotFoundException {
@@ -89,5 +92,74 @@ namespace CBL{
               exit(-1);
             }
     };
+    class MERegionNotFound {
+        protected:
+        std::string msg;
+        public:
+            MERegionNotFound(){ msg = "ME Region is not found in firmware!"; }
+            ~MERegionNotFound(){}
+            void debug(){
+                std::cout<<"[DEBUG] "<<msg.c_str()<<std::endl;
+            }
+            void error(){
+                std::cerr<<"[ERROR] "<<msg.c_str()<<std::endl;
+           }
+          void critical_error(){
+              std::cerr<<"[CRITICAL ERROR] "<<msg.c_str()<<" --> Programm collapse!"<<std::endl;
+              exit(-1);
+            }
+    };
+    class NullChunkNumberInNonSysPage {
+        protected:
+        std::string msg;
+        public:
+            NullChunkNumberInNonSysPage(){ msg = "Null chunk numer in header of non-system page!"; }
+            ~NullChunkNumberInNonSysPage(){}
+            void debug(){
+                std::cout<<"[DEBUG] "<<msg.c_str()<<std::endl;
+            }
+            void error(){
+                std::cerr<<"[ERROR] "<<msg.c_str()<<std::endl;
+           }
+          void critical_error(){
+              std::cerr<<"[CRITICAL ERROR] "<<msg.c_str()<<" --> Programm collapse!"<<std::endl;
+              exit(-1);
+            }
+    }; 
+    class NotNullChunkNumberInSysPage {
+        protected:
+        std::string msg;
+        public:
+            NotNullChunkNumberInSysPage(){ msg = "Not null chunk numer in header of system page!"; }
+            ~NotNullChunkNumberInSysPage(){}
+            void debug(){
+                std::cout<<"[DEBUG] "<<msg.c_str()<<std::endl;
+            }
+            void error(){
+                std::cerr<<"[ERROR] "<<msg.c_str()<<std::endl;
+           }
+          void critical_error(){
+              std::cerr<<"[CRITICAL ERROR] "<<msg.c_str()<<" --> Programm collapse!"<<std::endl;
+              exit(-1);
+            }
+    };
+    class CantCreateFileToWrite {
+        protected:
+        std::string msg;
+        public:
+            CantCreateFileToWrite(){ msg = "Can't create file to write!"; }
+            ~CantCreateFileToWrite(){}
+            void debug(){
+                std::cout<<"[DEBUG] "<<msg.c_str()<<std::endl;
+            }
+            void error(){
+                std::cerr<<"[ERROR] "<<msg.c_str()<<std::endl;
+           }
+          void critical_error(){
+              std::cerr<<"[CRITICAL ERROR] "<<msg.c_str()<<" --> Programm collapse!"<<std::endl;
+              exit(-1);
+            }
+    };
+    
 }
 #endif

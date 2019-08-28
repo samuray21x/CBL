@@ -8,14 +8,12 @@ namespace CBL{
     /****************
           TYPEDEFS     
     ****************/
-    typedef uint8_t BYTE;
-    typedef uint32_t DATASIZE;
-    typedef uint32_t ADDRESS;
-    typedef int32_t OFFSET;
-    typedef std::vector<BYTE> V_BYTE;
-    typedef std::vector<DATASIZE> V_DATASIZE;
-    typedef std::vector<ADDRESS> V_ADDRESS;
-    typedef std::vector<OFFSET> V_OFFSET;
+    typedef uint8_t Byte;
+    typedef uint64_t Datasize;
+    typedef uint64_t Address;
+    typedef std::vector<Byte> V_Byte;
+    typedef std::vector<Datasize> V_Datasize;
+    typedef std::vector<Address> V_Address;
     /****************
         CONSTANTS     
     ****************/
